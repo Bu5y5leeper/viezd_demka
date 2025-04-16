@@ -1,0 +1,9 @@
+services:
+  vuln:
+    build: ./sql_vuln
+    ports:
+      - 8080:8080
+  fixed:
+    build: ./sql_fixed
+    ports:
+      - 8081:8080

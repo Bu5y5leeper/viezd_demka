@@ -1,0 +1,3 @@
+include:
+  - ./ssti_vuln/docker-compose.yml
+  - ./ssti_fixed/docker-compose.yml

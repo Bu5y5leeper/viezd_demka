@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  auth_vuln:
+    build: .
+    ports:
+      - "7000:8082"
+    volumes:
+      - .:/app
+    environment:
+      FLASK_ENV: development
+      ADMIN_USR: admin_usr
+      ADMIN_PASS: 5up3r_53cur3!

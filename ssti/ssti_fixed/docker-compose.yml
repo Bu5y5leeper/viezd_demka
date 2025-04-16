@@ -1,0 +1,23 @@
+services:
+  postgres_fixed:
+    image: postgres
+    hostname: postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: smcadmin
+      POSTGRES_DB: smcdb
+      POSTGRES_PASSWORD: jNEqMMLtjiprDSOpsRpSQ
+    networks:
+      - sstinet_fixed
+  ssti_fixed:
+    build: .
+    command: gunicorn -w 6 --bind 0.0.0.0:1337 --log-level debug run:app
+    restart: unless-stopped
+    environment:
+      POSTGRES_CONNECT: postgres://smcadmin:jNEqMMLtjiprDSOpsRpSQ@postgres:5432/smcdb
+    ports:
+      - "4001:1337"
+    networks:
+      - sstinet_fixed
+networks:
+  sstinet_fixed: {}

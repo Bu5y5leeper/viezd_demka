@@ -1,0 +1,9 @@
+services:
+  bl_vuln:
+    build: ./bl_vuln
+    ports:
+      - 1337:1337
+  bl_fixed:
+    build: ./bl_fixed
+    ports:
+      - 1338:1338

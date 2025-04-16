@@ -1,0 +1,3 @@
+include:
+  - ./bac_vuln/docker-compose.yaml
+  - ./bac_fixed/docker-compose.yaml

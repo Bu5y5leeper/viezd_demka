@@ -1,0 +1,26 @@
+<!-- templates/display_note.html -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Заметка {{ note.id }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>{{ note.title }}</h1>
+        <div class="metadata">
+            <span>Создано: {{ note.created_at }}</span>
+            {% if note.updated_at != note.created_at %}
+                <span>Обновлено: {{ note.updated_at }}</span>
+            {% endif %}
+        </div>
+    </header>
+    
+    <main class="content">
+        <article>
+            {{ note.content | safe }}
+        </article>
+    </main>
+</body>
+</html>

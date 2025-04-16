@@ -1,0 +1,23 @@
+services:
+  postgres_vuln:
+    image: postgres
+    hostname: postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: smcadmin
+      POSTGRES_DB: smcdb
+      POSTGRES_PASSWORD: jNEqMMLtjiprDSOpsRpSQ
+    networks:
+      - sstinet_vuln
+  ssti_vuln:
+    build: .
+    command: gunicorn -w 6 --bind 0.0.0.0:1337 --log-level debug run:app
+    restart: unless-stopped
+    environment:
+      POSTGRES_CONNECT: postgres://smcadmin:jNEqMMLtjiprDSOpsRpSQ@postgres:5432/smcdb
+    ports:
+      - "4000:1337"
+    networks:
+      - sstinet_vuln
+networks:
+  sstinet_vuln: {}

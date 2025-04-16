@@ -1,0 +1,9 @@
+services:
+  command_vuln:
+    build: ./command_vuln
+    ports:
+      - 10000:8080
+  command_fixed:
+    build: ./command_fixed
+    ports:
+      - 10001:8080

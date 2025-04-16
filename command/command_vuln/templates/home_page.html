@@ -1,0 +1,22 @@
+{{ define "home_page" }}
+
+{{ template "header" }}
+
+<main class="px-3">
+    <h1>Главная страница</h1>
+    <p class="lead">Введите IP необходимого вам сервера:</p>
+    <form action="/" method="post">
+        <input type="text" name="server_ip" id="server_ip" placeholder="IP сервера"
+        class="form-control"><br>
+        <button class="btn btn-warning mb-4">Проверка</button>
+        {{ if . }}
+        <div class="mt-4 p-3 bg-dark text-white rounded">
+            <pre class="mb-0">{{ . }}</pre>
+        </div>
+        {{ end }}
+    </form>
+</main>
+
+{{ template "footer" }}
+
+{{ end }}
