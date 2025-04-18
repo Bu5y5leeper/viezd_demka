@@ -37,7 +37,6 @@ def index():
 @app.route('/register', methods=['POST', 'GET'])
 def register():
     if request.method == 'POST':
-        logging.warning('qweqwe')
         data = request.get_json()
         if not all(key in data for key in ('username', 'email', 'password')):
             return jsonify({'error': 'Не все поля заполнены'}), 400
@@ -45,7 +44,7 @@ def register():
         try:
             conn = get_db_connection()
             cur = conn.cursor()
-            # Проверка существования пользователя
+            #Проверка существования пользователя
             cur.execute("""
                 SELECT id FROM users 
                 WHERE username = %s OR email = %s
@@ -59,7 +58,6 @@ def register():
                 VALUES (%s, %s, %s)
                 RETURNING id
             """, (data['username'], data['email'], hashed_password))
-
             user_id = cur.fetchone()[0]
             conn.commit()
             token = jwt.encode({
@@ -92,8 +90,8 @@ def login():
             cur = conn.cursor()
 
             cur.execute("""
-                SELECT id, password_hash 
-                FROM users 
+                SELECT id, password_hash
+                FROM users
                 WHERE username = %s
             """, (data['username'],))
 
@@ -126,39 +124,38 @@ def create_note():
         token = request.cookies.get('token')
         if not token:
             return jsonify({'error': 'Токен отсутствует'}), 401
-    
         try:
             payload = jwt.decode(token, str(app.config['SECRET_KEY']), algorithms=['HS256'])
         except jwt.ExpiredSignatureError:
             return jsonify({'error': 'Токен истёк'}), 401
         except jwt.InvalidTokenError:
             return jsonify({'error': 'Неверный токен'}), 401
-    
+
         data = request.json
         if not all(key in data for key in ('title', 'content')):
             return jsonify({'error': 'Не все поля заполнены'}), 400
-    
+
         conn = None
         try:
             conn = get_db_connection()
             cur = conn.cursor()
-        
+
             # Проверка существования пользователя
             cur.execute("SELECT id FROM users WHERE id = %s", (payload['user_id'],))
             user = cur.fetchone()
             if not user:
                 return jsonify({'error': 'Пользователь не найден'}), 404
-        
-        # Создание заметки
+
+            # Создание заметки
             cur.execute("""
                 INSERT INTO notes (user_id, title, content, created_at, updated_at)
                 VALUES (%s, %s, %s, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
                 RETURNING id, title, content, created_at
             """, (payload['user_id'], data['title'], data['content']))
-        
+
             note_data = cur.fetchone()
             conn.commit()
-            return
+            return jsonify({'status': 'created'})
         except Exception as e:
             if conn:
                 conn.rollback()
@@ -177,16 +174,15 @@ def show_notes():
     try:
         payload = jwt.decode(token, str(app.config['SECRET_KEY']), algorithms=['HS256'])
 
-        # Получаем заметки пользователя через API
         conn = None
         try:
             conn = get_db_connection()
             cur = conn.cursor()
 
             cur.execute("""
-                SELECT id, title, content, created_at 
-                FROM notes 
-                WHERE user_id = %s 
+                SELECT id, title, content, created_at
+                FROM notes
+                WHERE user_id = %s
                 ORDER BY created_at DESC
             """, (payload['user_id'],))
 
@@ -227,8 +223,8 @@ def get_note(note_id):
         cur = conn.cursor()
 
         cur.execute("""
-            SELECT id, title, content, created_at, updated_at 
-            FROM notes 
+            SELECT id, title, content, created_at, updated_at
+            FROM notes
             WHERE id = %s AND user_id = %s""", (note_id, payload['user_id']))
         note_data=cur.fetchone()
         if not note_data:

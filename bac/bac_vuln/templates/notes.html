@@ -3,53 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Мои заметки</title>
-    <style>
-        .notes-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        .note {
-            border: 1px solid #ddd;
-            padding: 15px;
-            margin-bottom: 15px;
-            border-radius: 5px;
-        }
-        
-        .note-title {
-            font-size: 1.5em;
-            margin-bottom: 10px;
-        }
-        
-        .note-content {
-            margin-bottom: 10px;
-        }
-        
-        .note-meta {
-            color: #666;
-            font-size: 0.9em;
-        }
-        
-        /* Стили для кнопки */
-        .create-note-btn {
-            background-color: #007bff;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-bottom: 20px;
-            transition: background-color 0.3s;
-        }
-        
-        .create-note-btn:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <div class="notes-container">
+    <div class="container">
         <h1>Мои заметки</h1>
         
         <!-- Кнопка создания новой заметки -->
@@ -57,11 +14,11 @@
             Создать новую заметку
         </button>
         
-        <div id="notes-list">
+        <div id="list">
             {% for note in data %}
-                <div class="note">
-                    <div class="note-title">{{note[1]}}</div>
-                    <div class="note-content">
+                <div class="content">
+                    <div>{{note[1]}}</div>
+                    <div class="metadata">
                         <a href="/notes/{{note[0]}}">
                             Читать заметку
                         </a>
@@ -70,8 +27,8 @@
             {% endfor %}
             
             {% if not data %}
-                <div class="note">
-                    <div class="note-content">
+                <div>
+                    <div class="content">
                         У вас пока нет заметок
                     </div>
                 </div>

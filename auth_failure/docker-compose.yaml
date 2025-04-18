@@ -1,3 +1,3 @@
 include:
-  - ./auth_failure_vuln/docker-compose.yaml
-  - ./auth_failure_fixed/docker-compose.yaml
+  - ./auth_failure_vuln/docker-compose.yml
+  - ./auth_failure_fixed/docker-compose.yml

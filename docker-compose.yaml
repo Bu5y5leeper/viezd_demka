@@ -1,0 +1,7 @@
+include:
+  - ./auth_failure/docker-compose.yaml
+  - ./buisness_logic/docker-compose.yaml
+  - ./sql_service/docker-compose.yaml
+  - ./bac/docker-compose.yaml
+  - ./command/docker-compose.yaml
+  - ./ssti/docker-compose.yaml

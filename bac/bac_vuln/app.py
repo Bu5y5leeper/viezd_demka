@@ -58,7 +58,6 @@ def register():
                 VALUES (%s, %s, %s)
                 RETURNING id
             """, (data['username'], data['email'], hashed_password))
-            
             user_id = cur.fetchone()[0]
             conn.commit()
             token = jwt.encode({
@@ -125,7 +124,6 @@ def create_note():
         token = request.cookies.get('token')
         if not token:
             return jsonify({'error': 'Токен отсутствует'}), 401
-
         try:
             payload = jwt.decode(token, str(app.config['SECRET_KEY']), algorithms=['HS256'])
         except jwt.ExpiredSignatureError:
@@ -182,9 +180,9 @@ def show_notes():
             cur = conn.cursor()
 
             cur.execute("""
-                SELECT id, title, content, created_at 
-                FROM notes 
-                WHERE user_id = %s 
+                SELECT id, title, content, created_at
+                FROM notes
+                WHERE user_id = %s
                 ORDER BY created_at DESC
             """, (payload['user_id'],))
 
